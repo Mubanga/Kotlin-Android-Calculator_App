@@ -12,7 +12,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/btn_Cancel"
             android:layout_marginTop="64dp" app:layout_constraintTop_toBottomOf="@+id/edtText_Calculation_Screen"
-            android:minWidth="80dip" android:textSize="18sp" android:layout_marginStart="8dp"
+            android:minWidth="80dip" android:textSize="18sp" android:layout_marginStart="16dp"
             app:layout_constraintStart_toStartOf="@+id/edtText_Calculation_Screen"/>
     <Button
             android:text="/ "
