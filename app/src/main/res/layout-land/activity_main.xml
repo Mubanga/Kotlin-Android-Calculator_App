@@ -137,7 +137,8 @@
             android:minWidth="80dip" android:textSize="18sp"
             android:layout_marginEnd="8dp"
             app:layout_constraintEnd_toStartOf="@+id/btn_Operation_Equals" android:layout_marginTop="8dp"
-            app:layout_constraintTop_toBottomOf="@+id/btn_Operation_Add"/>
+            app:layout_constraintTop_toBottomOf="@+id/btn_Operation_Add"
+            app:layout_constraintBottom_toBottomOf="@+id/btn_Num_1"/>
     <Button
             android:text="0"
             android:layout_width="wrap_content"
@@ -162,7 +163,8 @@
             android:minWidth="80dip" android:textSize="18sp"
             android:layout_marginEnd="8dp"
             app:layout_constraintEnd_toStartOf="@+id/btn_Operation_Brackets" android:layout_marginTop="8dp"
-            app:layout_constraintTop_toBottomOf="@+id/btn_Delete"/>
+            app:layout_constraintTop_toBottomOf="@+id/btn_Delete"
+            app:layout_constraintBottom_toBottomOf="@+id/btn_Num_1"/>
     <Button
             android:text="="
             android:layout_width="wrap_content"
@@ -170,7 +172,8 @@
             android:id="@+id/btn_Operation_Equals"
             android:minWidth="80dip" android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="@+id/btn_Operation_Minus" android:layout_marginTop="8dp"
-            app:layout_constraintTop_toBottomOf="@+id/btn_Operation_Minus"/>
+            app:layout_constraintTop_toBottomOf="@+id/btn_Operation_Minus"
+            app:layout_constraintBottom_toBottomOf="@+id/btn_Num_1"/>
     <EditText
             android:layout_width="0dp"
             android:layout_height="wrap_content"
