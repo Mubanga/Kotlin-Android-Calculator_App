@@ -20,6 +20,7 @@ class MainActivity : AppCompatActivity() {
     private var pendingOperation = ""
     private lateinit var NumButtons: ArrayList<Button> // Numerical Number Buttons
     private lateinit var OperationButtons: ArrayList<Button> // Operation Buttons
+    private lateinit var SpecialButtons: ArrayList<Button> // Special Buttons
     private val CurrentOperations =
         arrayListOf<String>() // ArrayList That Stores The Operations That Need To Be Performed
     private var OperationsMap = mapOf(
@@ -34,6 +35,42 @@ class MainActivity : AppCompatActivity() {
     )
     //OperationsMap = mapOf("Cancel" to "C","Division" to "/","Multiplication" to "x","Delete" to "DEL","Minus" to "-","Add" to "+","Brackets" to "()","Equals" to "=")
 
+    private fun SpecialOnClickListenr(SpecialOperation: String): View.OnClickListener {
+
+        val _SpecialOnClickListner = View.OnClickListener { v ->
+            val SpecialButton = v as Button
+            var ButtonText: String = SpecialOperation
+            val IndexOfLastOperator:Int = CalculatorScreen.text.indexOfLast { x -> x == '+' || x == '-' || x == '*' || x == '/' }
+            if (SpecialButton.text.toString() == ".") {
+                Log.d(TAG, "SpecialButton Text = ${ButtonText}")
+                if (CalculatorScreen.text.lastIndex>-1 && CalculatorScreen.text[CalculatorScreen.text.lastIndex].isDigit()) {
+                    if ((CalculatorScreen.text.indexOfLast { x -> x == '.' }) == -1 && (IndexOfLastOperator == -1)) {
+                        CalculatorScreen.append(ButtonText)
+                    } else {
+                        if ((CalculatorScreen.text.indexOfLast { x -> x == '.' }) < (IndexOfLastOperator) && IndexOfLastOperator!=-1) {
+                            CalculatorScreen.append(ButtonText)
+                        }
+                    }
+                }
+
+                //Implement Decimal Point
+//
+//                if((CalculatorScreen.text.find { x-> x =='.' })!='.')
+//                {
+//                    CalculatorScreen.text.append(ButtonText)
+//                }
+                    if (CalculatorScreen.text.lastIndex == -1) // You Are Dealing With A Fraction Decimal Point Here
+                    {
+                        CalculatorScreen.text.append("0" + ButtonText)
+                    }
+            }
+            if (SpecialButton.text.toString() == "+/-") {
+                //TODO: Implement Special Signed Number Behaviour
+            }
+        }
+
+        return _SpecialOnClickListner
+    }
 
     private fun OperationsOnClickListner(Operation: String): View.OnClickListener {
         //OperationsMap.get(Operation)
@@ -53,7 +90,7 @@ class MainActivity : AppCompatActivity() {
                         CalculatorScreen.append(ButtonText)
                     } else {
                         CalculatorScreen.text.clear()
-                        CalculatorScreen.text.append(FinalCalc.toString())
+                        CalculatorScreen.text.append(FinalCalc.toString() + ButtonText)
                         FinalCalc = 0.0
                     }
                 }
@@ -61,7 +98,7 @@ class MainActivity : AppCompatActivity() {
 
             }
 
-            //TODO: Implement Delete and Equals OnClickListners
+
             if (ButtonText == "C") {
                 if (!CalculatorScreen.text.isEmpty()) {
                     CalculatorScreen.text.clear()
@@ -77,13 +114,14 @@ class MainActivity : AppCompatActivity() {
                     CalculatorScreen.text.clear()
                 }
             }
+            //TODO: Implement Support For Signed Sensitive Numbers Eg -45+27
             if (ButtonText == "=") {
                 var Numbers: String = ""
                 Numbers = CalculatorScreen.text.toString()
                 var NewNumber = Numbers.split("+", "-", "*", "/", " ", "(", ")", "/0")
                 //Numbers.removeSurrounding("0","1","2","3","4","5","6","7","8","9")
                 //           var NewOperands = Numbers.split(" ","0","1","2","3","4","5","6","7","8","9","/0",ignoreCase = true)
-                var NewOperands = (Numbers.filter { x -> !x.isLetterOrDigit() }).toList()
+                var NewOperands = (Numbers.filter { x -> !x.isLetterOrDigit() && x != '.' }).toList()
                 var Result: Double = 0.0
                 var Number_Of_Operations: Int = NewOperands.size
                 var isInvalidCalculation: Boolean = true
@@ -128,14 +166,7 @@ class MainActivity : AppCompatActivity() {
                     CalculatorScreen.text.append("= ${FinalCalc}")
                 }
 
-//                for(currentTerm in NewNumber)
-//                {
-//                    val currentOperand = NewOperands.get(0)
-//                    if(currentOperand == '+')
-//                    {
-//
-//                    }
-//                }
+
 
                 Log.d(TAG, "NewNumber Is ${NewNumber}")
                 Log.d(TAG, "NewOperands Is ${NewOperands}")
@@ -153,7 +184,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         CalculatorScreen = edtText_Calculation_Screen
         //OperationsMap = mapOf("Cancel" to "C","Division" to "/","Multiplication" to "x","Delete" to "DEL","Minus" to "-","Add" to "+","Brackets" to "()","Equals" to "=")
-        //********** Numpad Button Declarations ***************
+        //********** NUMPAD Button Declarations ***************
         NumButtons = ArrayList<Button>()
         for (x in 0..9) {
             val prefix_Button = "btn_Num"
@@ -176,6 +207,7 @@ class MainActivity : AppCompatActivity() {
             Num_Button.setOnClickListener(NumPadListner)
             NumButtons.add(Num_Button)
         }
+
 
         // ************ OPERATION OnClickListners ******************
 //        val OperationClearListner = View.OnClickListener { v ->
@@ -201,11 +233,19 @@ class MainActivity : AppCompatActivity() {
 //            CalculatorScreen.append("/")
 //        }
 
+        // ************ SPECIAL Button Declarations  ****************
+        lateinit var specialButton: Button
+        specialButton = findViewById(R.id.btn_Special_Dot)
+        val Prefix_Button_Operation = "btn_Special_"
+        var Special_Resource_ID = Prefix_Button_Operation + "Dot"
+
 
         // ************ OPERATION Button Declarations ***************
         OperationButtons = ArrayList<Button>()
+        SpecialButtons = ArrayList<Button>()
         val PrefixButtonOperations =
             listOf<String>("Cancel", "Division", "Multiplication", "Delete", "Minus", "Add", "Brackets", "Equals")
+        val PrefixSpecialButton = listOf<String>("Dot", "Plus_Minus")
         for (x in PrefixButtonOperations) {
             val Prefix_Button_Operation = "btn_Operation_"
             val Operations_Button_ID = Prefix_Button_Operation + x
@@ -213,6 +253,14 @@ class MainActivity : AppCompatActivity() {
             val operationButton = findViewById<Button>(Resource_ID)
             operationButton.setOnClickListener(OperationsOnClickListner(operationButton.text.toString()))
             OperationButtons.add(operationButton)
+        }
+        for (x in PrefixSpecialButton) {
+            val Prefix_Special_Button_Operation = "btn_Special_"
+            val Special_Button_ID = Prefix_Special_Button_Operation + x
+            val Resource_ID = resources.getIdentifier(Special_Resource_ID, "id", packageName)
+            val specialButton = findViewById<Button>(Resource_ID)
+            specialButton.setOnClickListener(SpecialOnClickListenr(specialButton.text.toString()))
+            SpecialButtons.add(specialButton)
         }
 
 

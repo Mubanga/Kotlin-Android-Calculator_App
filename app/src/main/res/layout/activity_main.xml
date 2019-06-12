@@ -147,7 +147,7 @@
             android:text="."
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/btn_Dot" android:layout_marginTop="8dp"
+            android:id="@+id/btn_Special_Dot" android:layout_marginTop="8dp"
             app:layout_constraintTop_toBottomOf="@+id/btn_Num_2" app:layout_constraintStart_toEndOf="@+id/btn_Num_0"
             android:layout_marginStart="12dp" android:minWidth="80dip" android:textSize="18sp"
     />
@@ -155,8 +155,8 @@
             android:text="+/-"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/btn_Plus_Minus" android:layout_marginTop="8dp"
-            app:layout_constraintTop_toBottomOf="@+id/btn_Num_3" app:layout_constraintStart_toEndOf="@+id/btn_Dot"
+            android:id="@+id/btn_Special_Plus_Minus" android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@+id/btn_Num_3" app:layout_constraintStart_toEndOf="@+id/btn_Special_Dot"
             android:layout_marginStart="4dp" android:minWidth="80dip" android:textSize="18sp"
     />
     <Button
@@ -165,7 +165,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/btn_Operation_Equals" android:layout_marginTop="8dp"
             app:layout_constraintTop_toBottomOf="@+id/btn_Operation_Brackets"
-            app:layout_constraintStart_toEndOf="@+id/btn_Plus_Minus"
+            app:layout_constraintStart_toEndOf="@+id/btn_Special_Plus_Minus"
             android:layout_marginStart="8dp" android:minWidth="80dip" android:textSize="18sp"
     />
     <EditText

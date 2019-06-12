@@ -151,7 +151,7 @@
             android:text="."
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/btn_Dot" android:layout_marginTop="8dp"
+            android:id="@+id/btn_Special_Dot" android:layout_marginTop="8dp"
             app:layout_constraintTop_toBottomOf="@+id/btn_Num_2" app:layout_constraintStart_toEndOf="@+id/btn_Num_0"
             android:layout_marginStart="12dp" android:minWidth="80dip" android:textSize="18sp"
     />
@@ -159,7 +159,7 @@
             android:text="+/-"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/btn_Plus_Minus"
+            android:id="@+id/btn_Special_Plus_Minus"
             android:minWidth="80dip" android:textSize="18sp"
             android:layout_marginEnd="8dp"
             app:layout_constraintEnd_toStartOf="@+id/btn_Operation_Brackets" android:layout_marginTop="8dp"
@@ -177,7 +177,7 @@
     <EditText
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:inputType="textMultiLine|numberDecimal|numberSigned|text"
+            android:inputType="textMultiLine|numberDecimal|numberSigned"
             android:gravity="start|top"
             android:ems="10"
             android:id="@+id/edtText_Calculation_Screen"
