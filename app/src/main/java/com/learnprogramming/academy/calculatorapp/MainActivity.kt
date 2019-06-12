@@ -39,10 +39,9 @@ class MainActivity : AppCompatActivity() {
             //val ButtonText:String = OperationsMap.get(OperationButton.text.toString())
             if(ButtonText!="C"||ButtonText!="DEL"||ButtonText!="=")
             {
-                CalculatorScreen.append("x")
                 CalculatorScreen.append(ButtonText)
             }
-            else {
+
                 //TODO: Implement Delete and Equals OnClickListners
                 if (ButtonText == "C") {
                     CalculatorScreen.text.clear()
@@ -57,7 +56,20 @@ class MainActivity : AppCompatActivity() {
                         CalculatorScreen.text.clear()
                     }
                 }
+            if(ButtonText == "=")
+            {
+                var Numbers:String = ""
+                Numbers = CalculatorScreen.text.toString()
+                var NewNumber = Numbers.split("+","-","*","/"," ","/0")
+                //Numbers.removeSurrounding("0","1","2","3","4","5","6","7","8","9")
+     //           var NewOperands = Numbers.split(" ","0","1","2","3","4","5","6","7","8","9","/0",ignoreCase = true)
+                var NewOperands = Numbers.filter { x -> !x.isLetterOrDigit() }
+
+                Log.d("MainActivity","NewNumber Is ${NewNumber}")
+                Log.d("MainActivity","NewOperands Is ${NewOperands}")
+
             }
+
 
         }
         return CurrentOnClickListner
