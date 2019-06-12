@@ -11,70 +11,122 @@ import kotlinx.android.synthetic.main.activity_main.*
 class MainActivity : AppCompatActivity() {
 
     private lateinit var CalculatorScreen: EditText
-    private var FinalCalc : Double = 0.0
+    private var FinalCalc: Double = 0.0
+    private val TAG = "MainActivity"
 
     // Variables To Hold Operand Terms
-    private var operand1:Double? = null
-    private var operand2:Double = 0.0
+    private var operand1: Double? = null
+    private var operand2: Double = 0.0
     private var pendingOperation = ""
-    private lateinit var NumButtons:ArrayList<Button> // Numerical Number Buttons
-    private lateinit var OperationButtons:ArrayList<Button> // Operation Buttons
-    private val CurrentOperations = arrayListOf<String>() // ArrayList That Stores The Operations That Need To Be Performed
-    private var OperationsMap = mapOf("Cancel" to "C","Division" to "/","Multiplication" to "x","Delete" to "DEL","Minus" to "-","Add" to "+","Brackets" to "()","Equals" to "=")
+    private lateinit var NumButtons: ArrayList<Button> // Numerical Number Buttons
+    private lateinit var OperationButtons: ArrayList<Button> // Operation Buttons
+    private val CurrentOperations =
+        arrayListOf<String>() // ArrayList That Stores The Operations That Need To Be Performed
+    private var OperationsMap = mapOf(
+        "Cancel" to "C",
+        "Division" to "/",
+        "Multiplication" to "x",
+        "Delete" to "DEL",
+        "Minus" to "-",
+        "Add" to "+",
+        "Brackets" to "()",
+        "Equals" to "="
+    )
     //OperationsMap = mapOf("Cancel" to "C","Division" to "/","Multiplication" to "x","Delete" to "DEL","Minus" to "-","Add" to "+","Brackets" to "()","Equals" to "=")
 
 
-    private fun OperationsOnClickListner(Operation : String) : View.OnClickListener
-    {
+    private fun OperationsOnClickListner(Operation: String): View.OnClickListener {
         //OperationsMap.get(Operation)
-        val CurrentOnClickListner = View.OnClickListener { v->
+        val CurrentOnClickListner = View.OnClickListener { v ->
             val OperationButton = v as Button
-            var ButtonText:String = Operation
+            var ButtonText: String = Operation
 
-            if(OperationButton.text.toString()!=null)
-            {
+            if (OperationButton.text.toString() != null) {
                 //ButtonText = OperationButton.text.toString()
-                Log.d("MainActivity","ButtonText Is ${ButtonText}")
+                Log.d(TAG, "ButtonText Is ${ButtonText}")
             }
             //val ButtonText:String = OperationsMap.get(OperationButton.text.toString())
-            if(ButtonText!="C"||ButtonText!="DEL"||ButtonText!="=")
-            {
-                val PreviousCharacter = CalculatorScreen.text[CalculatorScreen.text.lastIndex]
-                // Only Allow An Operation To Be Added To The Screen If The Previous Character Is Not An Operation
-                if(PreviousCharacter.isLetterOrDigit())
-                {
-                    CalculatorScreen.append(ButtonText)
+            if (ButtonText != "C" || ButtonText != "DEL" || ButtonText != "=") {
+                if (!CalculatorScreen.text.isEmpty()) {
+                    val PreviousCharacter = CalculatorScreen.text[CalculatorScreen.text.lastIndex]
+                    if (PreviousCharacter.isLetterOrDigit() && FinalCalc == 0.0) {
+                        CalculatorScreen.append(ButtonText)
+                    } else {
+                        CalculatorScreen.text.clear()
+                        CalculatorScreen.text.append(FinalCalc.toString())
+                        FinalCalc = 0.0
+                    }
                 }
-
+                // Only Allow An Operation To Be Added To The Screen If The Previous Character Is Not An Operation
 
             }
 
-                //TODO: Implement Delete and Equals OnClickListners
-                if (ButtonText == "C") {
+            //TODO: Implement Delete and Equals OnClickListners
+            if (ButtonText == "C") {
+                if (!CalculatorScreen.text.isEmpty()) {
                     CalculatorScreen.text.clear()
                 }
-                if (ButtonText == "DEL") {
-                    if (CalculatorScreen.text.lastIndex > 0) {
-                        CalculatorScreen.text.delete(
-                            CalculatorScreen.text.lastIndex,
-                            CalculatorScreen.text.lastIndex + 1
-                        )
-                    } else {
-                        CalculatorScreen.text.clear()
-                    }
+            }
+            if (ButtonText == "DEL") {
+                if (CalculatorScreen.text.lastIndex > 0) {
+                    CalculatorScreen.text.delete(
+                        CalculatorScreen.text.lastIndex,
+                        CalculatorScreen.text.lastIndex + 1
+                    )
+                } else {
+                    CalculatorScreen.text.clear()
                 }
-            if(ButtonText == "=")
-            {
-                var Numbers:String = ""
+            }
+            if (ButtonText == "=") {
+                var Numbers: String = ""
                 Numbers = CalculatorScreen.text.toString()
-                var NewNumber = Numbers.split("+","-","*","/"," ","(",")","/0")
+                var NewNumber = Numbers.split("+", "-", "*", "/", " ", "(", ")", "/0")
                 //Numbers.removeSurrounding("0","1","2","3","4","5","6","7","8","9")
-     //           var NewOperands = Numbers.split(" ","0","1","2","3","4","5","6","7","8","9","/0",ignoreCase = true)
+                //           var NewOperands = Numbers.split(" ","0","1","2","3","4","5","6","7","8","9","/0",ignoreCase = true)
                 var NewOperands = (Numbers.filter { x -> !x.isLetterOrDigit() }).toList()
-                var Result:Double = 0.0
-                var Number_Of_Operations:Int = NewOperands.size
+                var Result: Double = 0.0
+                var Number_Of_Operations: Int = NewOperands.size
+                var isInvalidCalculation: Boolean = true
 
                 // Check If A Calculation Can Be Performed
+                // We NEED At Least 1 Operation And 2 Operands Or Terms
+                if (Number_Of_Operations <= NewNumber.size - 1 && NewNumber.isNotEmpty()) {
+                    isInvalidCalculation = false
+                    Log.d(TAG, " Calculation Is Valid = false")
+                }
+                if (!isInvalidCalculation) {
+                    for (x in 0..NewNumber.size - 1) {
+                        if (x == 0) {
+                            Result = NewNumber.get(x).toDouble()
+                            Log.d(TAG, " Result_1 = ${Result}")
+                        } else {
+                            // ******** ASCII "*" = 42, "+" = 43, "-" = 45, "/" = 47, "=" = 61
+                            val ASCII_Operation = NewOperands.get(x - 1).toInt()
+                            when (ASCII_Operation) {
+                                // **** Multiplaction "*"
+                                42 -> {
+                                    Result = Result * (NewNumber.get(x)).toDouble()
+                                }
+                                // **** Add "+"
+                                43 -> {
+                                    Result = Result + (NewNumber.get(x)).toDouble()
+                                }
+                                // **** Subtract "-"
+                                45 -> {
+                                    Result = Result - (NewNumber.get(x)).toDouble()
+                                }
+                                // **** Divide "/"
+                                47 -> {
+                                    Result = Result / (NewNumber.get(x)).toDouble()
+                                }
+                            }
+                        }
+
+                    }
+                    FinalCalc = Result
+                    CalculatorScreen.text.clear()
+                    CalculatorScreen.text.append("= ${FinalCalc}")
+                }
 
 //                for(currentTerm in NewNumber)
 //                {
@@ -85,8 +137,8 @@ class MainActivity : AppCompatActivity() {
 //                    }
 //                }
 
-                Log.d("MainActivity","NewNumber Is ${NewNumber}")
-                Log.d("MainActivity","NewOperands Is ${NewOperands}")
+                Log.d(TAG, "NewNumber Is ${NewNumber}")
+                Log.d(TAG, "NewOperands Is ${NewOperands}")
 
             }
 
@@ -103,17 +155,23 @@ class MainActivity : AppCompatActivity() {
         //OperationsMap = mapOf("Cancel" to "C","Division" to "/","Multiplication" to "x","Delete" to "DEL","Minus" to "-","Add" to "+","Brackets" to "()","Equals" to "=")
         //********** Numpad Button Declarations ***************
         NumButtons = ArrayList<Button>()
-        for(x in 0..9)
-        {
+        for (x in 0..9) {
             val prefix_Button = "btn_Num"
             var button_ID = prefix_Button + "_$x"
-            val Resource_ID = resources.getIdentifier(button_ID,"id",packageName)
+            val Resource_ID = resources.getIdentifier(button_ID, "id", packageName)
             val Num_Button = findViewById<Button>(Resource_ID)
 
             // Establish onClickListners For All The Numpad Buttons
             val NumPadListner = View.OnClickListener { v ->
-                val numButton = v as Button // When the button is clicked a reference will be returned that needs to be casted as a button
-                CalculatorScreen.append(numButton.text) // Display The Newly Added Number In The CalculatorScreen
+                val numButton =
+                    v as Button // When the button is clicked a reference will be returned that needs to be casted as a button
+                if (FinalCalc == 0.0) {
+                    CalculatorScreen.append(numButton.text) // Display The Newly Added Number In The CalculatorScreen
+                } else {
+                    CalculatorScreen.text.clear()
+                    CalculatorScreen.text.append(numButton.text)
+                    FinalCalc = 0.0
+                }
             }
             Num_Button.setOnClickListener(NumPadListner)
             NumButtons.add(Num_Button)
@@ -146,17 +204,16 @@ class MainActivity : AppCompatActivity() {
 
         // ************ OPERATION Button Declarations ***************
         OperationButtons = ArrayList<Button>()
-        val PrefixButtonOperations = listOf<String>("Cancel","Division","Multiplication","Delete","Minus","Add","Brackets","Equals")
-        for(x in PrefixButtonOperations)
-        {
+        val PrefixButtonOperations =
+            listOf<String>("Cancel", "Division", "Multiplication", "Delete", "Minus", "Add", "Brackets", "Equals")
+        for (x in PrefixButtonOperations) {
             val Prefix_Button_Operation = "btn_Operation_"
             val Operations_Button_ID = Prefix_Button_Operation + x
-            val Resource_ID = resources.getIdentifier(Operations_Button_ID,"id",packageName)
+            val Resource_ID = resources.getIdentifier(Operations_Button_ID, "id", packageName)
             val operationButton = findViewById<Button>(Resource_ID)
             operationButton.setOnClickListener(OperationsOnClickListner(operationButton.text.toString()))
             OperationButtons.add(operationButton)
         }
-
 
 
 //        CalculatorScreen?.keyListener = null
