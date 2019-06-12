@@ -2,6 +2,7 @@ package com.learnprogramming.academy.calculatorapp
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
@@ -29,17 +30,17 @@ class MainActivity : AppCompatActivity() {
         val CurrentOnClickListner = View.OnClickListener { v->
             val OperationButton = v as Button
             var ButtonText:String = Operation
+
             if(OperationButton.text.toString()!=null)
             {
-                ButtonText = OperationButton.text.toString()
+                //ButtonText = OperationButton.text.toString()
+                Log.d("MainActivity","ButtonText Is ${ButtonText}")
             }
             //val ButtonText:String = OperationsMap.get(OperationButton.text.toString())
             if(ButtonText!="C"||ButtonText!="DEL"||ButtonText!="=")
             {
 
             }
-            else
-            {
                 //TODO: Implement Delete and Equals OnClickListners
                 if(ButtonText == "C")
                 {
@@ -47,9 +48,18 @@ class MainActivity : AppCompatActivity() {
                 }
                 if(ButtonText == "DEL")
                 {
-                    CalculatorScreen.text.delete(CalculatorScreen.text.lastIndex-1,CalculatorScreen.text.lastIndex)
+                    if(CalculatorScreen.text.lastIndex>0) {
+                        CalculatorScreen.text.delete(
+                            CalculatorScreen.text.lastIndex,
+                            CalculatorScreen.text.lastIndex+1
+                        )
+                    }
+                    else
+                    {
+                        CalculatorScreen.text.clear()
+                    }
                 }
-            }
+
         }
 //        if(Operation!="Cancel"||Operation!="Delete"||Operation!="Equals")
 //        {
