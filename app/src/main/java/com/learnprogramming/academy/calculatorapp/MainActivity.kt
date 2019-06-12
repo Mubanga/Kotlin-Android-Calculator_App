@@ -39,43 +39,27 @@ class MainActivity : AppCompatActivity() {
             //val ButtonText:String = OperationsMap.get(OperationButton.text.toString())
             if(ButtonText!="C"||ButtonText!="DEL"||ButtonText!="=")
             {
-
+                CalculatorScreen.append("x")
+                CalculatorScreen.append(ButtonText)
             }
+            else {
                 //TODO: Implement Delete and Equals OnClickListners
-                if(ButtonText == "C")
-                {
-                        CalculatorScreen.text.clear()
+                if (ButtonText == "C") {
+                    CalculatorScreen.text.clear()
                 }
-                if(ButtonText == "DEL")
-                {
-                    if(CalculatorScreen.text.lastIndex>0) {
+                if (ButtonText == "DEL") {
+                    if (CalculatorScreen.text.lastIndex > 0) {
                         CalculatorScreen.text.delete(
                             CalculatorScreen.text.lastIndex,
-                            CalculatorScreen.text.lastIndex+1
+                            CalculatorScreen.text.lastIndex + 1
                         )
-                    }
-                    else
-                    {
+                    } else {
                         CalculatorScreen.text.clear()
                     }
                 }
+            }
 
         }
-//        if(Operation!="Cancel"||Operation!="Delete"||Operation!="Equals")
-//        {
-//            if(Operation == "Cancel")
-//            {
-//                val ClearOnclickListner = View.OnClickListener { v ->
-//                    CalculatorScreen.text.clear()
-//                }
-//            }
-//
-//        }
-//        else
-//        {
-//            CurrentOperations.add(Operation)
-//            CalculatorScreen.append(OperationsMap.get(Operation))
-//        }
         return CurrentOnClickListner
 
     }
@@ -104,22 +88,22 @@ class MainActivity : AppCompatActivity() {
         }
 
         // ************ OPERATION OnClickListners ******************
-        val OperationClearListner = View.OnClickListener { v ->
-            val operationButton = v as Button
-            CalculatorScreen.text.clear() // Clear Calculator Screen And All Pending Operation Interactions
-            // TODO: Clear Pending Operand Terms And Operations *****
-        }
-
-        // ***** ADDITION *******
-        val OperationAddListner = View.OnClickListener { v ->
-            val operationButton = v as Button
-            CalculatorScreen.append("+")
-        }
-        // ***** DIVISION *******
-        val OperationDivisionListner = View.OnClickListener { v ->
-            val operationButton = v as Button
-            CalculatorScreen.append("/")
-        }
+//        val OperationClearListner = View.OnClickListener { v ->
+//            val operationButton = v as Button
+//            CalculatorScreen.text.clear() // Clear Calculator Screen And All Pending Operation Interactions
+//            // TODO: Clear Pending Operand Terms And Operations *****
+//        }
+//
+//        // ***** ADDITION *******
+//        val OperationAddListner = View.OnClickListener { v ->
+//            val operationButton = v as Button
+//            CalculatorScreen.append("+")
+//        }
+//        // ***** DIVISION *******
+//        val OperationDivisionListner = View.OnClickListener { v ->
+//            val operationButton = v as Button
+//            CalculatorScreen.append("/")
+//        }
 
 //        // ***** DIVISION *******
 //        val OperationDivisionListner = View.OnClickListener { v ->

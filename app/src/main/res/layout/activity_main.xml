@@ -15,23 +15,25 @@
             android:minWidth="80dip" android:textSize="18sp" android:layout_marginStart="16dp"
             app:layout_constraintStart_toStartOf="@+id/edtText_Calculation_Screen"/>
     <Button
-            android:text="/ "
+            android:text="/"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/btn_Operation_Division"
             app:layout_constraintStart_toEndOf="@+id/btn_Operation_Cancel"
             android:layout_marginStart="12dp"
-            app:layout_constraintTop_toTopOf="@+id/btn_Operation_Cancel" android:minWidth="80dip" android:textSize="18sp"
+            app:layout_constraintTop_toTopOf="@+id/btn_Operation_Cancel" android:minWidth="80dip"
+            android:textSize="18sp"
             android:layout_marginBottom="8dp" app:layout_constraintBottom_toTopOf="@+id/btn_Num_8"
             app:layout_constraintVertical_bias="0.0"/>
     <Button
-            android:text="x "
+            android:text="x"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/btn_Operation_Multiplication"
             app:layout_constraintStart_toEndOf="@+id/btn_Operation_Division"
             android:layout_marginStart="4dp"
-            app:layout_constraintTop_toTopOf="@+id/btn_Operation_Cancel" android:minWidth="80dip" android:textSize="18sp"
+            app:layout_constraintTop_toTopOf="@+id/btn_Operation_Cancel" android:minWidth="80dip"
+            android:textSize="18sp"
             android:layout_marginBottom="8dp" app:layout_constraintBottom_toTopOf="@+id/btn_Num_9"
             app:layout_constraintVertical_bias="0.0"/>
     <Button

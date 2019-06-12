@@ -25,7 +25,7 @@
             app:layout_constraintEnd_toStartOf="@+id/btn_Operation_Multiplication"
             app:layout_constraintTop_toTopOf="@+id/btn_Num_7"/>
     <Button
-            android:text="x "
+            android:text="x"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/btn_Operation_Multiplication"
@@ -177,7 +177,7 @@
     <EditText
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:inputType="textMultiLine|numberDecimal|numberSigned"
+            android:inputType="textMultiLine|numberDecimal|numberSigned|text"
             android:gravity="start|top"
             android:ems="10"
             android:id="@+id/edtText_Calculation_Screen"
