@@ -39,7 +39,14 @@ class MainActivity : AppCompatActivity() {
             //val ButtonText:String = OperationsMap.get(OperationButton.text.toString())
             if(ButtonText!="C"||ButtonText!="DEL"||ButtonText!="=")
             {
-                CalculatorScreen.append(ButtonText)
+                val PreviousCharacter = CalculatorScreen.text[CalculatorScreen.text.lastIndex]
+                // Only Allow An Operation To Be Added To The Screen If The Previous Character Is Not An Operation
+                if(PreviousCharacter.isLetterOrDigit())
+                {
+                    CalculatorScreen.append(ButtonText)
+                }
+
+
             }
 
                 //TODO: Implement Delete and Equals OnClickListners
@@ -60,10 +67,23 @@ class MainActivity : AppCompatActivity() {
             {
                 var Numbers:String = ""
                 Numbers = CalculatorScreen.text.toString()
-                var NewNumber = Numbers.split("+","-","*","/"," ","/0")
+                var NewNumber = Numbers.split("+","-","*","/"," ","(",")","/0")
                 //Numbers.removeSurrounding("0","1","2","3","4","5","6","7","8","9")
      //           var NewOperands = Numbers.split(" ","0","1","2","3","4","5","6","7","8","9","/0",ignoreCase = true)
-                var NewOperands = Numbers.filter { x -> !x.isLetterOrDigit() }
+                var NewOperands = (Numbers.filter { x -> !x.isLetterOrDigit() }).toList()
+                var Result:Double = 0.0
+                var Number_Of_Operations:Int = NewOperands.size
+
+                // Check If A Calculation Can Be Performed
+
+//                for(currentTerm in NewNumber)
+//                {
+//                    val currentOperand = NewOperands.get(0)
+//                    if(currentOperand == '+')
+//                    {
+//
+//                    }
+//                }
 
                 Log.d("MainActivity","NewNumber Is ${NewNumber}")
                 Log.d("MainActivity","NewOperands Is ${NewOperands}")
