@@ -59,10 +59,10 @@ class MainActivity : AppCompatActivity() {
 //                {
 //                    CalculatorScreen.text.append(ButtonText)
 //                }
-                    if (CalculatorScreen.text.lastIndex == -1) // You Are Dealing With A Fraction Decimal Point Here
-                    {
-                        CalculatorScreen.text.append("0" + ButtonText)
-                    }
+//                    if (CalculatorScreen.text.lastIndex == -1) // You Are Dealing With A Fraction Decimal Point Here
+//                    {
+//                        CalculatorScreen.text.append("0" + ButtonText)
+//                    }
             }
             if (SpecialButton.text.toString() == "+/-") {
                 //TODO: Implement Special Signed Number Behaviour
