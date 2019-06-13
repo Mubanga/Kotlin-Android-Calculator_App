@@ -13,6 +13,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var CalculatorScreen: EditText
     private var FinalCalc: Double = 0.0
     private val TAG = "MainActivity"
+    private val FINAL_RESULT_CONTENT = "0.0"
 
     // Variables To Hold Operand Terms
     private var operand1: Double? = null
@@ -53,16 +54,6 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
 
-                //Implement Decimal Point
-//
-//                if((CalculatorScreen.text.find { x-> x =='.' })!='.')
-//                {
-//                    CalculatorScreen.text.append(ButtonText)
-//                }
-//                    if (CalculatorScreen.text.lastIndex == -1) // You Are Dealing With A Fraction Decimal Point Here
-//                    {
-//                        CalculatorScreen.text.append("0" + ButtonText)
-//                    }
             }
             if (SpecialButton.text.toString() == "+/-") {
                 //TODO: Implement Special Signed Number Behaviour
@@ -105,13 +96,13 @@ class MainActivity : AppCompatActivity() {
                 }
             }
             if (ButtonText == "DEL") {
-                if (CalculatorScreen.text.lastIndex > 0) {
+                if (CalculatorScreen.text.lastIndex > -1) {
                     CalculatorScreen.text.delete(
                         CalculatorScreen.text.lastIndex,
                         CalculatorScreen.text.lastIndex + 1
                     )
                 } else {
-                    CalculatorScreen.text.clear()
+                    CalculatorScreen.setText("")
                 }
             }
             //TODO: Implement Support For Signed Sensitive Numbers Eg -45+27
@@ -181,6 +172,10 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        if(savedInstanceState!=null)
+        {
+           FinalCalc = savedInstanceState?.getString(FINAL_RESULT_CONTENT).toDouble()
+        }
         setContentView(R.layout.activity_main)
         CalculatorScreen = edtText_Calculation_Screen
         //OperationsMap = mapOf("Cancel" to "C","Division" to "/","Multiplication" to "x","Delete" to "DEL","Minus" to "-","Add" to "+","Brackets" to "()","Equals" to "=")
@@ -207,6 +202,7 @@ class MainActivity : AppCompatActivity() {
             Num_Button.setOnClickListener(NumPadListner)
             NumButtons.add(Num_Button)
         }
+
 
 
         // ************ OPERATION OnClickListners ******************
@@ -266,5 +262,22 @@ class MainActivity : AppCompatActivity() {
 
 //        CalculatorScreen?.keyListener = null
 /* CalculatorScreen?.keyListener = null */
+    }
+
+    override fun onSaveInstanceState(outState: Bundle?) {
+        super.onSaveInstanceState(outState)
+
+        // Save Final Calculation Result
+        outState?.putString(FINAL_RESULT_CONTENT,FinalCalc.toString())
+
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle?) {
+        super.onRestoreInstanceState(savedInstanceState)
+
+        if(savedInstanceState!=null)
+        {
+            FinalCalc = savedInstanceState?.getString(FINAL_RESULT_CONTENT).toDouble()
+        }
     }
 }
